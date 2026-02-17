@@ -3,7 +3,6 @@ Numerical implementation of ΛCDM cosmology solving the Friedmann equations to m
 # Repository Structure
 
 - `src/` – Core numerical solver
-- `notebooks/` – Interactive simulations
 - `theory/` – Analytical derivations
 - `results/` – Generated plots
 
