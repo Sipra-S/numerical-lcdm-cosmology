@@ -1,0 +1,49 @@
+===========================================================
+ΛCDM Numerical Cosmology Simulation
+===========================================================
+
+Model Assumptions:
+- Spatially flat Universe (Ω_k = 0)
+- General Relativity governs cosmic dynamics
+- Components: Radiation, Matter, Dark Energy (Λ)
+
+Input Cosmological Parameters:
+H0          = 67.4 km/s/Mpc
+Omega_m     = 0.315
+Omega_r     = 9.0e-5
+Omega_Lambda= 0.685
+
+Numerical Method:
+- Integration method: Trapezoidal rule
+- Scale factor range: a = 1e-5 → 1
+- Discretization points: 10,000
+
+-----------------------------------------------------------
+Computed Global Quantities
+-----------------------------------------------------------
+
+Age of the Universe:
+t0 ≈ 13.8 Gyr
+
+-----------------------------------------------------------
+Distance Measures (z = 1)
+-----------------------------------------------------------
+
+Comoving Distance:
+D_C ≈ 3.4 Gpc  (≈ 3400 Mpc)
+
+Luminosity Distance:
+D_L ≈ 6.8 Gpc  (≈ 6800 Mpc)
+
+-----------------------------------------------------------
+Physical Interpretation
+-----------------------------------------------------------
+
+- Early-time expansion dominated by radiation (a < 10^-4)
+- Matter domination at intermediate epochs
+- Onset of dark energy domination near z ~ 0.3
+- Late-time accelerated expansion consistent with ΛCDM
+
+===========================================================
+End of Numerical Summary
+===========================================================
