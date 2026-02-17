@@ -1,8 +1,214 @@
 %ΛCDM Theoretical Derivation
 
-\documentclass{article}
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\title{Theoretical Framework of $\Lambda$CDM Cosmology}
+\author{}
+\date{}
+
 \begin{document}
 
-This file will contain the analytical derivation of the Friedmann equations.
+\maketitle
+
+\section{Foundational Assumptions}
+
+The $\Lambda$CDM model is based on the following assumptions:
+
+\begin{itemize}
+    \item \textbf{Cosmological Principle}: The Universe is homogeneous and isotropic on large scales.
+    \item \textbf{General Relativity} governs gravitational dynamics.
+    \item The matter-energy content consists of radiation, pressureless matter, and a cosmological constant $\Lambda$.
+\end{itemize}
+
+Under homogeneity and isotropy, the spacetime geometry is described by the Friedmann–Lemaître–Robertson–Walker (FLRW) metric:
+
+\begin{equation}
+ds^2 = -c^2 dt^2 + a^2(t) 
+\left[
+\frac{dr^2}{1 - kr^2} + r^2 d\Omega^2
+\right],
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $a(t)$ is the scale factor,
+    \item $k$ is the curvature parameter ($0, \pm1$),
+    \item $d\Omega^2$ is the angular metric.
+\end{itemize}
+
+\section{Einstein Field Equations}
+
+The Einstein field equations are:
+
+\begin{equation}
+G_{\mu\nu} + \Lambda g_{\mu\nu} 
+= \frac{8\pi G}{c^4} T_{\mu\nu}.
+\end{equation}
+
+Assuming a perfect fluid:
+
+\begin{equation}
+T_{\mu\nu} = (\rho + p/c^2) u_\mu u_\nu + p g_{\mu\nu}.
+\end{equation}
+
+Substituting the FLRW metric into Einstein’s equations yields the Friedmann equations.
+
+\section{Friedmann Equations}
+
+\subsection{First Friedmann Equation}
+
+\begin{equation}
+\left( \frac{\dot{a}}{a} \right)^2
+= \frac{8\pi G}{3} \rho
+- \frac{k c^2}{a^2}
++ \frac{\Lambda c^2}{3}.
+\end{equation}
+
+Defining the Hubble parameter:
+
+\begin{equation}
+H(t) = \frac{\dot{a}}{a}.
+\end{equation}
+
+\subsection{Second Friedmann Equation}
+
+\begin{equation}
+\frac{\ddot{a}}{a}
+= -\frac{4\pi G}{3}
+\left( \rho + \frac{3p}{c^2} \right)
++ \frac{\Lambda c^2}{3}.
+\end{equation}
+
+\section{Energy Conservation}
+
+The continuity equation follows from $\nabla_\mu T^{\mu\nu}=0$:
+
+\begin{equation}
+\dot{\rho} + 3H\left(\rho + \frac{p}{c^2}\right) = 0.
+\end{equation}
+
+For a component with equation of state $p = w\rho c^2$:
+
+\begin{equation}
+\rho(a) \propto a^{-3(1+w)}.
+\end{equation}
+
+Thus:
+
+\begin{align}
+\rho_r &\propto a^{-4} \quad (w = 1/3), \\
+\rho_m &\propto a^{-3} \quad (w = 0), \\
+\rho_\Lambda &= \text{constant} \quad (w = -1).
+\end{align}
+
+\section{Density Parameters}
+
+Define the critical density:
+
+\begin{equation}
+\rho_c = \frac{3H_0^2}{8\pi G}.
+\end{equation}
+
+Density parameters:
+
+\begin{equation}
+\Omega_i = \frac{\rho_{i,0}}{\rho_c}.
+\end{equation}
+
+For a flat Universe ($k=0$):
+
+\begin{equation}
+\Omega_r + \Omega_m + \Omega_\Lambda = 1.
+\end{equation}
+
+\section{$\Lambda$CDM Expansion Equation}
+
+The Friedmann equation becomes:
+
+\begin{equation}
+H(a) = H_0 
+\sqrt{
+\frac{\Omega_r}{a^4}
++ \frac{\Omega_m}{a^3}
++ \Omega_\Lambda
+}.
+\end{equation}
+
+This equation governs the expansion history used in the numerical simulation.
+
+\section{Cosmic Age}
+
+Cosmic time is obtained via:
+
+\begin{equation}
+dt = \frac{da}{a H(a)}.
+\end{equation}
+
+The age of the Universe is:
+
+\begin{equation}
+t_0 = \int_0^1 \frac{da}{aH(a)}.
+\end{equation}
+
+This integral has no closed-form solution in general and is evaluated numerically.
+
+\section{Cosmological Distances}
+
+\subsection{Comoving Distance}
+
+\begin{equation}
+D_C(z) = c \int_0^z \frac{dz'}{H(z')}.
+\end{equation}
+
+Using $a = \frac{1}{1+z}$:
+
+\begin{equation}
+D_C(z) = c \int_a^1 \frac{da'}{a'^2 H(a')}.
+\end{equation}
+
+\subsection{Luminosity Distance}
+
+\begin{equation}
+D_L(z) = (1+z) D_C(z).
+\end{equation}
+
+\subsection{Angular Diameter Distance}
+
+\begin{equation}
+D_A(z) = \frac{D_C(z)}{1+z}.
+\end{equation}
+
+\section{Numerical Implementation}
+
+The numerical simulation integrates:
+
+\begin{equation}
+t(a) = \int \frac{da}{aH(a)},
+\end{equation}
+
+using finite-difference summation over discretized scale factor values.
+
+Cosmological distances are computed using numerical quadrature over redshift or scale factor.
+
+\section{Conclusion}
+
+The $\Lambda$CDM model provides a self-consistent description of cosmic expansion from radiation domination to late-time accelerated expansion. Numerical integration enables computation of:
+
+\begin{itemize}
+    \item Expansion history $a(t)$
+    \item Age of the Universe
+    \item Cosmological distance measures
+\end{itemize}
+
+These results form the theoretical basis of the implemented simulation.
 
 \end{document}
+
