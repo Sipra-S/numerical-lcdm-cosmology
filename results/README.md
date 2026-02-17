@@ -71,10 +71,6 @@ The numerical integration reproduces the expected ΛCDM expansion behavior:
 - Matter-dominated intermediate phase
 - Late-time accelerated expansion driven by dark energy
 
-![Expansion History](results/expansion_history.png)
-
----
-
 # Key Numerical Outputs
 
 - Age of the Universe ≈ **13.8 Gyr**
