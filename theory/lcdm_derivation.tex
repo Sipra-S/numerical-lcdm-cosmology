@@ -1,214 +1,191 @@
 %ΛCDM Theoretical Derivation
 
-\documentclass[12pt]{article}
+\documentclass[12pt, a4paper]{article}
 
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{physics}
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsfonts, physics}
 \usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{abstract}
 
+% --- Layout ---
 \geometry{margin=1in}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Numerical LCDM Cosmology Report},
+}
 
-\title{Theoretical Framework of $\Lambda$CDM Cosmology}
-\author{}
-\date{}
+% --- Document Info ---
+\title{\textbf{Numerical Evolution of $\Lambda$CDM Cosmology}\\ \large Expansion Dynamics, Distance Measures, and Cosmic Age}
+\author{Sipra Subhadarsini Sahoo}
+\date{01.02.2026}
 
 \begin{document}
 
 \maketitle
 
-\section{Foundational Assumptions}
+\begin{abstract}
+This report details the theoretical framework and numerical implementation of the $\Lambda$CDM (Lambda Cold Dark Matter) model. We derive the Friedmann equations from the Einstein Field Equations under the FLRW metric and explore the evolution of the scale factor $a(t)$ across radiation, matter, and dark energy eras. Furthermore, we outline the numerical integration techniques used to determine the age of the Universe and various cosmological distance measures, providing a robust basis for simulating cosmic expansion history.
+\end{abstract}
 
-The $\Lambda$CDM model is based on the following assumptions:
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+Modern cosmology is founded upon the General Relativistic description of a homogeneous and isotropic universe governed by the Einstein Field Equations. Observations over the past several decades — including measurements of the Cosmic Microwave Background (CMB), large-scale galaxy surveys, baryon acoustic oscillations, and Type Ia supernovae — have converged toward a remarkably consistent cosmological model: the $\Lambda$CDM paradigm.
+
+The $\Lambda$CDM model posits that the Universe is composed primarily of cold dark matter (CDM) and a cosmological constant $\Lambda$, with smaller contributions from baryonic matter and radiation. Despite its conceptual simplicity, this model successfully explains the observed accelerated expansion of the Universe and the formation of large-scale cosmic structures. In this report, we explore both the theoretical foundations and the numerical implementation of this model, emphasizing the connection between relativistic dynamics and observable cosmological quantities.
+
+
+\section{The Mathematical Framework}
+
+\subsection{The Cosmological Principle and FLRW Metric}
+
+A central assumption of modern cosmology is the \textit{Cosmological Principle}, which states that the Universe is homogeneous and isotropic on sufficiently large scales ($\gtrsim 100$ Mpc). Under this assumption, the most general metric describing spacetime is the Friedmann–Lemaître–Robertson–Walker (FLRW) metric:
+
+\begin{equation}
+ds^2 = -c^2 dt^2 + a^2(t) \left[ \frac{dr^2}{1 - kr^2} + r^2 (d\theta^2 + \sin^2\theta d\phi^2) \right]
+\end{equation}
+
+Here, $a(t)$ is the dimensionless scale factor that encodes the dynamical expansion of the Universe, normalized such that $a(t_0)=1$ at the present epoch. The curvature parameter $k$ determines the global geometry: $k=0$ corresponds to a spatially flat universe, $k>0$ to a closed universe, and $k<0$ to an open universe. Observational evidence from CMB measurements strongly favors a spatially flat geometry.
+
+\subsection{Einstein Field Equations (EFE)}
+The dynamics of $a(t)$ are governed by the EFEs:
+\begin{equation}
+R_{\mu\nu} - \frac{1}{2}R g_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}
+\end{equation}
+Modeling the energy content as a perfect fluid with energy density $\rho$ and pressure $p$, the stress-energy tensor is $T^{\mu}_{\nu} = \text{diag}(-\rho c^2, p, p, p)$.
+
+\subsection{Einstein Field Equations (EFE)}
+
+The time evolution of the scale factor is determined by the Einstein Field Equations:
+
+\begin{equation}
+R_{\mu\nu} - \frac{1}{2}R g_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}
+\end{equation}
+
+These equations relate spacetime curvature (left-hand side) to the energy-momentum content of the Universe (right-hand side). Modeling cosmic matter as a perfect fluid characterized by energy density $\rho$ and pressure $p$, the stress-energy tensor is written as:
+
+\begin{equation}
+T^{\mu}_{\nu} = \text{diag}(-\rho c^2, p, p, p)
+\end{equation}
+
+This assumption is justified by the large-scale averaging of matter and radiation distributions. Substituting the FLRW metric into the Einstein equations yields the Friedmann equations, which govern cosmic expansion.
+
+\section{The Friedmann Equations}
+
+Substituting the FLRW metric and perfect fluid stress-energy tensor into the Einstein Field Equations leads to two independent dynamical equations describing the evolution of $a(t)$.
+
+\subsection{The First Friedmann Equation (Expansion Rate)}
+
+The first Friedmann equation determines the expansion rate of the Universe:
+
+\begin{equation}
+H^2 = \left( \frac{\dot{a}}{a} \right)^2 = \frac{8\pi G}{3} \rho - \frac{kc^2}{a^2} + \frac{\Lambda c^2}{3}
+\end{equation}
+
+This equation states that the Hubble parameter $H(t)$ is determined by three contributions: the total energy density $\rho$, spatial curvature, and the cosmological constant $\Lambda$. The relative importance of each term evolves with the scale factor.
+
+\subsection{The Second Friedmann Equation (Acceleration)}
+
+The second Friedmann equation describes the acceleration or deceleration of the expansion:
+
+\begin{equation}
+\frac{\ddot{a}}{a} = -\frac{4\pi G}{3} \left( \rho + \frac{3p}{c^2} \right) + \frac{\Lambda c^2}{3}
+\end{equation}
+
+This expression reveals that not only energy density but also pressure contributes to gravitational dynamics. For ordinary matter and radiation, the term in parentheses is positive, leading to deceleration. However, a sufficiently large cosmological constant contributes a repulsive effect, resulting in accelerated expansion ($\ddot{a} > 0$). Observational data confirm that the present Universe is undergoing such accelerated expansion.
+
+\section{Fluid Evolution and Eras}
+
+The conservation of energy-momentum implies the continuity equation:
+
+\begin{equation}
+\dot{\rho} + 3H(\rho + p/c^2) = 0
+\end{equation}
+
+Assuming an equation of state of the form $p = w\rho c^2$, we obtain the scaling relation:
+
+\begin{equation}
+\rho(a) \propto a^{-3(1+w)}
+\end{equation}
+
+This leads to distinct cosmological eras:
+
+\begin{enumerate}
+    \item \textbf{Radiation Era ($w=1/3$):} $\rho_r \propto a^{-4}$. The additional factor of $a^{-1}$ arises from redshift of photon energy. This era dominates at very early times.
+    
+    \item \textbf{Matter Era ($w=0$):} $\rho_m \propto a^{-3}$. Matter domination governs structure formation and galaxy clustering.
+    
+    \item \textbf{Dark Energy Era ($w=-1$):} $\rho_\Lambda = \text{constant}$. Dark energy dominates at late times, driving accelerated expansion.
+\end{enumerate}
+
+The transition between these eras determines the overall expansion history and leaves observable imprints in cosmological data.
+
+
+\section{Numerical Methodology}
+
+\subsection{The Normalized Friedmann Equation}
+
+To facilitate numerical computation, we introduce the critical density:
+
+\[
+\rho_c = \frac{3H_0^2}{8\pi G}
+\]
+
+and define dimensionless density parameters $\Omega_i = \rho_{i,0}/\rho_c$. The expansion function is then written as:
+
+\begin{equation}
+E(a) = \frac{H(a)}{H_0} = \sqrt{\Omega_{r,0}a^{-4} + \Omega_{m,0}a^{-3} + \Omega_{k,0}a^{-2} + \Omega_{\Lambda,0}}
+\end{equation}
+
+This normalized form separates cosmological parameters from the time evolution of the scale factor.
+
+\subsection{Integration for Cosmic Age}
+
+The cosmic time corresponding to a given scale factor is computed from:
+
+\begin{equation}
+t(a) = \frac{1}{H_0} \int_{0}^{a} \frac{da'}{a' E(a')}
+\end{equation}
+
+Because this integral has no closed-form solution for realistic parameter values, we perform numerical integration. In our implementation, we use the cumulative trapezoidal rule with logarithmic spacing in $a$. Logarithmic discretization ensures improved resolution in the early Universe where the expansion rate changes rapidly.
+
+The resulting present-day age is approximately $t_0 \approx 13.8$ Gyr, consistent with CMB observations.
+
+
+\section{Distance Measures}
+
+To connect theoretical predictions with observational data such as Type Ia supernovae and CMB measurements, we compute cosmological distance measures.
 
 \begin{itemize}
-    \item \textbf{Cosmological Principle}: The Universe is homogeneous and isotropic on large scales.
-    \item \textbf{General Relativity} governs gravitational dynamics.
-    \item The matter-energy content consists of radiation, pressureless matter, and a cosmological constant $\Lambda$.
+    \item \textbf{Comoving Distance:} 
+    \[
+    D_C(z) = \frac{c}{H_0} \int_0^z \frac{dz'}{E(z')}
+    \]
+    This represents the present-day separation between two comoving points.
+    
+    \item \textbf{Luminosity Distance:}
+    \[
+    D_L(z) = (1+z) D_C(z)
+    \]
+    This distance governs the observed flux–luminosity relation for distant objects.
 \end{itemize}
 
-Under homogeneity and isotropy, the spacetime geometry is described by the Friedmann–Lemaître–Robertson–Walker (FLRW) metric:
-
-\begin{equation}
-ds^2 = -c^2 dt^2 + a^2(t) 
-\left[
-\frac{dr^2}{1 - kr^2} + r^2 d\Omega^2
-\right],
-\end{equation}
-
-where:
-\begin{itemize}
-    \item $a(t)$ is the scale factor,
-    \item $k$ is the curvature parameter ($0, \pm1$),
-    \item $d\Omega^2$ is the angular metric.
-\end{itemize}
-
-\section{Einstein Field Equations}
-
-The Einstein field equations are:
-
-\begin{equation}
-G_{\mu\nu} + \Lambda g_{\mu\nu} 
-= \frac{8\pi G}{c^4} T_{\mu\nu}.
-\end{equation}
-
-Assuming a perfect fluid:
-
-\begin{equation}
-T_{\mu\nu} = (\rho + p/c^2) u_\mu u_\nu + p g_{\mu\nu}.
-\end{equation}
-
-Substituting the FLRW metric into Einstein’s equations yields the Friedmann equations.
-
-\section{Friedmann Equations}
-
-\subsection{First Friedmann Equation}
-
-\begin{equation}
-\left( \frac{\dot{a}}{a} \right)^2
-= \frac{8\pi G}{3} \rho
-- \frac{k c^2}{a^2}
-+ \frac{\Lambda c^2}{3}.
-\end{equation}
-
-Defining the Hubble parameter:
-
-\begin{equation}
-H(t) = \frac{\dot{a}}{a}.
-\end{equation}
-
-\subsection{Second Friedmann Equation}
-
-\begin{equation}
-\frac{\ddot{a}}{a}
-= -\frac{4\pi G}{3}
-\left( \rho + \frac{3p}{c^2} \right)
-+ \frac{\Lambda c^2}{3}.
-\end{equation}
-
-\section{Energy Conservation}
-
-The continuity equation follows from $\nabla_\mu T^{\mu\nu}=0$:
-
-\begin{equation}
-\dot{\rho} + 3H\left(\rho + \frac{p}{c^2}\right) = 0.
-\end{equation}
-
-For a component with equation of state $p = w\rho c^2$:
-
-\begin{equation}
-\rho(a) \propto a^{-3(1+w)}.
-\end{equation}
-
-Thus:
-
-\begin{align}
-\rho_r &\propto a^{-4} \quad (w = 1/3), \\
-\rho_m &\propto a^{-3} \quad (w = 0), \\
-\rho_\Lambda &= \text{constant} \quad (w = -1).
-\end{align}
-
-\section{Density Parameters}
-
-Define the critical density:
-
-\begin{equation}
-\rho_c = \frac{3H_0^2}{8\pi G}.
-\end{equation}
-
-Density parameters:
-
-\begin{equation}
-\Omega_i = \frac{\rho_{i,0}}{\rho_c}.
-\end{equation}
-
-For a flat Universe ($k=0$):
-
-\begin{equation}
-\Omega_r + \Omega_m + \Omega_\Lambda = 1.
-\end{equation}
-
-\section{$\Lambda$CDM Expansion Equation}
-
-The Friedmann equation becomes:
-
-\begin{equation}
-H(a) = H_0 
-\sqrt{
-\frac{\Omega_r}{a^4}
-+ \frac{\Omega_m}{a^3}
-+ \Omega_\Lambda
-}.
-\end{equation}
-
-This equation governs the expansion history used in the numerical simulation.
-
-\section{Cosmic Age}
-
-Cosmic time is obtained via:
-
-\begin{equation}
-dt = \frac{da}{a H(a)}.
-\end{equation}
-
-The age of the Universe is:
-
-\begin{equation}
-t_0 = \int_0^1 \frac{da}{aH(a)}.
-\end{equation}
-
-This integral has no closed-form solution in general and is evaluated numerically.
-
-\section{Cosmological Distances}
-
-\subsection{Comoving Distance}
-
-\begin{equation}
-D_C(z) = c \int_0^z \frac{dz'}{H(z')}.
-\end{equation}
-
-Using $a = \frac{1}{1+z}$:
-
-\begin{equation}
-D_C(z) = c \int_a^1 \frac{da'}{a'^2 H(a')}.
-\end{equation}
-
-\subsection{Luminosity Distance}
-
-\begin{equation}
-D_L(z) = (1+z) D_C(z).
-\end{equation}
-
-\subsection{Angular Diameter Distance}
-
-\begin{equation}
-D_A(z) = \frac{D_C(z)}{1+z}.
-\end{equation}
-
-\section{Numerical Implementation}
-
-The numerical simulation integrates:
-
-\begin{equation}
-t(a) = \int \frac{da}{aH(a)},
-\end{equation}
-
-using finite-difference summation over discretized scale factor values.
-
-Cosmological distances are computed using numerical quadrature over redshift or scale factor.
+These quantities allow direct comparison between theoretical expansion models and observational datasets.
 
 \section{Conclusion}
 
-The $\Lambda$CDM model provides a self-consistent description of cosmic expansion from radiation domination to late-time accelerated expansion. Numerical integration enables computation of:
-
-\begin{itemize}
-    \item Expansion history $a(t)$
-    \item Age of the Universe
-    \item Cosmological distance measures
-\end{itemize}
-
-These results form the theoretical basis of the implemented simulation.
+The $\Lambda$CDM model provides a self-consistent framework linking general relativity, cosmic expansion, and observational cosmology. By numerically solving the Friedmann equations, we translate fundamental relativistic dynamics into measurable quantities such as the cosmic age and luminosity distance. The consistency between numerical results and observational constraints reinforces the robustness of the standard cosmological model while highlighting the deep interplay between geometry, matter content, and cosmic evolution.
 
 \end{document}
-
